@@ -1,12 +1,11 @@
 
 
 # Importing the gain shit information.
-Gain file /Users/vetlewi/Desktop/beam_test_march/input_files/gain_shift.dat
-
-range /Users/vetlewi/Desktop/beam_test_march/input_files/zrange_p.dat
+Gain file /home/fabiobz/Desktop/Masterthesis/240Pu/preexperiment/OfflineOCL/input_files/gain_shift.dat
+range /home/fabiobz/Desktop/Masterthesis/240Pu/preexperiment/OfflineOCL/zrange_p.dat
 
 # Now we will need to read files... There is a lot of the :O
-data directory /Users/vetlewi/Desktop/beam_test_march
-data file merged.bin
+data directory /home/fabiobz/Desktop/Masterthesis/240Pu/preexperiment/OfflineOCL/data
+data file sirius-20180405-170828.data
 
-export root  /Users/vetlewi/Desktop/beam_test_march/output_files/beam_test.root
+export root  /home/fabiobz/Desktop/Masterthesis/240Pu/preexperiment/OfflineOCL/output_files/beam_test.root
