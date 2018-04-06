@@ -69,8 +69,9 @@ static bool set_gainshift(Parameters& parameters, std::istream& ipar)
     bool p4 = set_par(parameters, ipar, "shift_de", NUM_SI_DE_DET );
     bool p5 = set_par(parameters, ipar, "gain_e", NUM_SI_E_DET );
     bool p6 = set_par(parameters, ipar, "shift_e", NUM_SI_E_DET );
-    bool p7 = set_par(parameters, ipar, "time_align", NUM_LABR_DETECTORS );
-    return (p1 && p2 && p3 && p4 && p5 && p6 && p7);
+    bool p7 = set_par(parameters, ipar, "time_align_ppac", NUM_PPAC );
+    bool p8 = set_par(parameters, ipar, "time_align_labr", NUM_LABR_DETECTORS );
+    return (p1 && p2 && p3 && p4 && p5 && p6 && p7 && p8);
 }
 
 UserSort::UserSort()
@@ -80,7 +81,8 @@ UserSort::UserSort()
     , shift_dE( GetParameters(), "shift_de", NUM_SI_DE_DET, 0)
     , gain_E( GetParameters(), "gain_e", NUM_SI_E_DET, 1)
     , shift_E( GetParameters(), "shift_e", NUM_SI_E_DET, 0)
-    , time_align( GetParameters(), "time_align", NUM_LABR_DETECTORS, 0)
+    , time_align_ppac( GetParameters(), "time_align_ppac", NUM_PPAC, 0)
+    , time_align_labr( GetParameters(), "time_align_labr", NUM_LABR_DETECTORS, 0)
 {
 }
 
@@ -228,11 +230,11 @@ bool UserSort::Sort(const Event &event)
         for (int j = 0 ; j < event.n_ppac[i] ; ++j){
 
             tstart = event.w_ppac[i][j].timestamp;
-            tstart_corr = event.w_ppac[i][j].cfdcorr;
+            tstart_corr = event.w_ppac[i][j].cfdcorr - time_align_ppac[i];
             for (int n = 0 ; n < NUM_LABR_DETECTORS ; ++n){
                 for ( int m = 0 ; m < event.n_labr[n] ; ++m){
                     tdiff = event.w_labr[n][m].timestamp - tstart;
-                    tdiff_corr = event.w_labr[n][m].cfdcorr - tstart_corr + time_align[n];
+                    tdiff_corr = event.w_labr[n][m].cfdcorr - tstart_corr + time_align_labr[n];
                     time_ppac_labr[i]->Fill(tdiff + tdiff_corr, n);
                 }
             }

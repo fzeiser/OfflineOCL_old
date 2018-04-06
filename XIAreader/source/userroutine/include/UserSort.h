@@ -79,8 +79,12 @@ private:
     // Shift E
     Parameter shift_E;
 
-    // Time alignment
-    Parameter time_align;
+    // Time shift for alignment for PPAC detectors (to be aligned before labrs)
+    Parameter time_align_ppac;
+
+    // Time shift for alignment for labr detectors
+    Parameter time_align_labr;
+
 
 
 
