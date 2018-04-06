@@ -117,7 +117,7 @@ bool Unpacker::UnpackOneEvent(Event& event, int& n_data)
     word_t cWord;
     for (int i =  curr_Buf ; i < buffer->GetSize() ; ++i){
         cWord = (*buffer)[i];
-        if (GetDetector(cWord.address).type == eDet){
+        if (GetDetector(cWord.address).type == ppac){
             int start = i;
             int stop = i+1;
 
