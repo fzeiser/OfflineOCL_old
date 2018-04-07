@@ -182,8 +182,24 @@ void UserSort::CreateSpectra()
     sprintf(tmp, "alfna_labr1");
     alfna_labr_1 = Mat(tmp, tmp, 1500, 0, 15000, "LaBr [ch]", 1100, -1000, 15000, "Ex [keV]");
 
+    for (int i = 0 ; i < 2 ; ++i){
+
+        if(i==0) {sprintf(tmp, "time_ppacAll_labrClose");}
+        else {sprintf(tmp, "time_ppacAll_labrFar");}
+    time_ppacAll_labr[i] = Spec(tmp, tmp, 10000, -2500, 2500, "Time [ns]");
+
+        for (int j = 0 ; j < 4 ; ++j){
+                if(i==0) {sprintf(tmp, "time_ppac%02d_labrClose", j);}
+                else {sprintf(tmp, "time_ppac%02d_labrFar", j);}
+            time_ppac_labrPx[i][j] = Spec(tmp, tmp, 10000, -2500, 2500, "Time [ns]");
+                if(i==0) {sprintf(tmp, "time_energy_ppac%02d_labrClose",j);}
+                else {sprintf(tmp, "time_energy_ppac%02d_labrFar", j);}
+            time_energy_ppac_labrPx[i][j] = Mat(tmp, tmp, 400, -100, 100, "Time [ns]", 300, 0, 10000, "Energy [keV]");
+            }
+    }
+
     for (int i = 0 ; i < 4 ; ++i){
-        sprintf(tmp, "time_ppac_labr_%02d", i);
+        sprintf(tmp, "time_ppac%02d_labr", i);
         time_ppac_labr[i] = Mat(tmp, tmp, 10000, -2500, 2500, "Time [ns]", NUM_LABR_DETECTORS, 0, NUM_LABR_DETECTORS, "LaBr nr.");
     }
 }
@@ -224,6 +240,8 @@ bool UserSort::Sort(const Event &event)
         }
     }
 
+    int nDetAt40cm = 8; // number (in root) of the detetor that was at 40cm instead of 20 cm
+
     int64_t tstart, tdiff;
     double tstart_corr, tdiff_corr;
     for (i = 0 ; i < NUM_PPAC ; ++i){
@@ -236,6 +254,19 @@ bool UserSort::Sort(const Event &event)
                     tdiff = event.w_labr[n][m].timestamp - tstart;
                     tdiff_corr = event.w_labr[n][m].cfdcorr - tstart_corr + time_align_labr[n];
                     time_ppac_labr[i]->Fill(tdiff + tdiff_corr, n);
+
+                    energy = gain_labr[i]*(event.w_labr[i][j].adcdata + drand48() - 0.5) + shift_labr[i];
+
+                    if (n != nDetAt40cm){
+                        time_ppacAll_labr[0]->Fill(tdiff + tdiff_corr);
+                        time_ppac_labrPx[0][i]->Fill(tdiff + tdiff_corr);
+                        time_energy_ppac_labrPx[0][i]->Fill(tdiff + tdiff_corr, energy);
+                    }
+                    else {
+                        time_ppacAll_labr[1]->Fill(tdiff + tdiff_corr);
+                        time_ppac_labrPx[1][i]->Fill(tdiff + tdiff_corr);
+                        time_energy_ppac_labrPx[1][i]->Fill(tdiff + tdiff_corr, energy);
+                    }
                 }
             }
         }

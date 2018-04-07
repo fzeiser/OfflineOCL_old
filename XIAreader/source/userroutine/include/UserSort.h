@@ -50,7 +50,12 @@ private:
     Histogram2Dp time_e_de[NUM_SI_E_DET];
 
     Histogram1Dp time_labr[NUM_LABR_DETECTORS];
-    Histogram2Dp time_ppac_labr[NUM_PPAC];
+
+    //PPAC gated spectra
+    Histogram2Dp time_ppac_labr[NUM_PPAC]; // time spectra
+    Histogram1Dp time_ppac_labrPx[2][NUM_PPAC]; // [0][NUM_PPAC]: closer detectors; [1][NUM_PPAC]: at larger distance
+    Histogram1Dp time_ppacAll_labr[2]; // all PPACS combied
+    Histogram2Dp time_energy_ppac_labrPx[2][NUM_PPAC]; // time-vs-energy spectra for all LaBr combined; [Distance][PPAC_nr]
 
     // DE - E spectra (everything in same...)
     Histogram2Dp ede_all, ede[NUM_SI_RINGS][NUM_SI_E_DET];
