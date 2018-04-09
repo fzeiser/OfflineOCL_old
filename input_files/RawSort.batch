@@ -5,6 +5,20 @@ Gain file /Users/vetlewi/Desktop/beam_test_march/input_files/gain_shift.dat
 
 range /Users/vetlewi/Desktop/beam_test_march/input_files/zrange_p.dat
 
+
+# Coefficients of 2nd order Polynomial to calculate excitation energy from SiRi energy (E+dE).
+# Calculate with Qkinz
+#    /* Should contains NUM_SI_RINGS * 3 coefficients. */
+parameter ex_from_ede    = 1.5528e+4 -9.6287e-1 -1.3943e-6 \
+1.5521e+4 -9.6197e-1 -1.4187e-6 \
+1.5514e+4 -9.6096e-1 -1.4466e-6 \
+1.5505e+4 -9.5981e-1 -1.4785e-6 \
+1.5495e+4 -9.5852e-1 -1.5148e-6 \
+1.5484e+4 -9.5707e-1 -1.5558e-6 \
+1.5471e+4 -9.5545e-1 -1.6023e-6 \
+1.5455e+4 -9.5363e-1 -1.6550e-6
+
+
 # Now we will need to read files... There is a lot of the :O
 data directory /Users/vetlewi/Desktop/beam_test_march
 data file merged.bin

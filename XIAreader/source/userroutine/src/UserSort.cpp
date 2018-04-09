@@ -80,6 +80,7 @@ UserSort::UserSort()
     , gain_E( GetParameters(), "gain_e", NUM_SI_E_DET, 1)
     , shift_E( GetParameters(), "shift_e", NUM_SI_E_DET, 0)
     , time_align( GetParameters(), "time_align", NUM_LABR_DETECTORS, 0)
+    , ex_from_ede    ( GetParameters(), "ex_from_ede", NUM_SI_RINGS*3, 0)
 {
 }
 
@@ -254,7 +255,12 @@ bool UserSort::Sort(const Event &event)
             double thick = range.GetRange(e_energy+de_energy) - range.GetRange(e_energy);
             h_particle->Fill(thick);
             if (thick >= 100 && thick <= 160){
-                double ex = 14.5333 - 1.030173*(e_energy+de_energy)/1000. - 0.001239*pow((e_energy+de_energy)/1000.,2);
+                //double ex = 14.5333 - 1.030173*(e_energy+de_energy)/1000. - 0.001239*pow((e_energy+de_energy)/1000.,2);
+                // sample of how to change it:
+                // DOTO: how to get the correct ring number, dei
+                int i_ring = de_word.detectorNum % 8;
+                double ex = ex_from_ede[3*i_ring+0] - ex_from_ede[3*i_ring+1]*(e_energy+de_energy)/1000. - ex_from_ede[3*i_ring+2]*pow((e_energy+de_energy)/1000.,2);
+
                 h_ex->Fill(ex*1000);
 
                 // If we have arrived at this point we might as well do timing between

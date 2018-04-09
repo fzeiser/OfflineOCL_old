@@ -82,6 +82,9 @@ private:
     // Time alignment
     Parameter time_align;
 
+    // Coefficients of 2nd order Polynomial to calculate excitation energy from SiRi energy (E+dE).
+    /* Should contains NUM_SI_RINGS * 3 coefficients. */
+    Parameter ex_from_ede;
 
 
 };
